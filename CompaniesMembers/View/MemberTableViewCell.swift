@@ -8,8 +8,15 @@
 
 import UIKit
 
-class MemberTableViewCell: UITableViewCell {
+class MemberTableViewCell: UITableViewCell, ListItemCellProtocol {
 
+    @IBOutlet weak var lblAge: UILabel!
+    @IBOutlet weak var lblPhone: UILabel!
+    @IBOutlet weak var lblEmail: UILabel!
+    @IBOutlet weak var lblName: UILabel!
+    
+    static let identifier : String = "MemberTableViewCell"
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,5 +27,14 @@ class MemberTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func configure(itemViewModel: ListItemViewModelProtocol) {
+        guard let memberViewModel = itemViewModel as? MemberListItemViewModel else {return}
+        self.lblAge.text = "\(memberViewModel.age)y"
+        self.lblName.text = memberViewModel.mainTitle
+        self.lblEmail.text = memberViewModel.subTitle
+        self.lblPhone.text = memberViewModel.phone
+    }
+    
     
 }

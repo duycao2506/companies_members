@@ -9,10 +9,12 @@
 import UIKit
 
 class CompanyListViewController: ListViewController {
-
+    static let viewIdentifier = "CompanyListViewController"
     override func viewDidLoad() {
+        if viewModel == nil {
+            self.configureWith(viewmodel: CompanyListViewModel.init())
+        }
         super.viewDidLoad()
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -22,14 +24,18 @@ class CompanyListViewController: ListViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    override func setupViews() {
+        super.setupViews()
+        self.tableView.register(UINib.init(nibName: CompanyTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: CompanyTableViewCell.identifier)
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        super.tableView(tableView, didSelectRowAt: indexPath)
+        guard let rawItem = self.viewModel.itemAt(section: indexPath.section, index: indexPath.row).rawValue as? Company else {return}
+        let vmodel = MemberListViewModel.init(company: rawItem)
+        guard let vc = storyboard?.instantiateViewController(identifier: MemberListViewController.viewIdentifier) as? MemberListViewController else {return}
+        vc.configureWith(viewmodel: vmodel)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     /*

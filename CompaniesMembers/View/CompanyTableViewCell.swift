@@ -7,9 +7,21 @@
 //
 
 import UIKit
+import SDWebImage
 
-class CompanyTableViewCell: UITableViewCell {
+protocol ListItemCellProtocol {
+    func configure(itemViewModel : ListItemViewModelProtocol)
+}
 
+class CompanyTableViewCell: UITableViewCell, ListItemCellProtocol {
+
+    @IBOutlet weak var lblSubtitle: UILabel!
+    @IBOutlet weak var lblMainTitle: UILabel!
+    @IBOutlet weak var lblDescription: UILabel!
+    @IBOutlet weak var imgLogo: UIImageView!
+    
+    static let identifier : String = "CompanyTableViewCell"
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -21,4 +33,11 @@ class CompanyTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func configure(itemViewModel: ListItemViewModelProtocol) {
+        guard let companyViewModel = itemViewModel as? CompanyListItemViewModel else {return}
+        self.lblSubtitle.text = companyViewModel.subTitle
+        self.lblMainTitle.text = companyViewModel.mainTitle
+        self.imgLogo.sd_setImage(with: URL.init(string: companyViewModel.logoUrl), placeholderImage: UIImage.init(named: "company_placeholder"), options: [], context: nil)
+        self.lblDescription.text = companyViewModel.about
+    }
 }

@@ -1,12 +1,14 @@
 //
 //  BindableTest.swift
-//  DeskTests
+//  CompaniesMembersTests
 //
-//  Created by Deskera on 9/22/19.
-//  Copyright © 2019 Deskera. All rights reserved.
+//  Created by Deskera on 12/04/19.
+//  Copyright © 2019 Duy Cao. All rights reserved.
 //
 
 import XCTest
+
+@testable import CompaniesMembers
 
 class BindableTest: XCTestCase {
 

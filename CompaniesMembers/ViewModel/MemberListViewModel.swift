@@ -7,3 +7,20 @@
 //
 
 import Foundation
+
+class MemberListViewModel : ListViewModel {
+    var company : Company!
+    init(company : Company) {
+        super.init()
+        self.company = company
+        self.title.value = company.name
+        self.sortOptions = [.name, .age]
+        self.rawItemList = company.members.map({MemberListItemViewModel.init(member: $0)})
+        self.filter()
+    }
+    
+    override func refresh() {
+        isLoading.value = true
+        isLoading.value = false
+    }
+}
